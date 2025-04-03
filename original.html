@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Dead Zone: Original</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #131115;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 5px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #1d1a21;
+            padding: 20px;
+            border: 2px solid #322e38;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .changelog, .version, .download-links, .description, .tags-section {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .changelog ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .changelog li {
+            background-color: #1d1a21;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #322e38;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: #1d1a21;
+            color: white;
+            border: 2px solid #322e38;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .download-links a {
+            display: block;
+            background: #1d1a21;
+            color: white;
+            padding: 10px;
+            border: 2px solid #322e38;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .download-links a:hover {
+            background: #131115;
+        }
+
+        .warning-tag {
+            background-color: white;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            html, body {
+                max-width: 100%;
+                padding: 20px;
+                overflow: hidden;
+            }
+        }
+
+        .dates {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .dates span {
+            background: #131115;
+            padding: 3px;
+            border-radius: 5px;
+            font-size: 10px;
+            color: white;
+        }
+
+        .dates .icon {
+            font-size: 15px;
+            color: white;
+        }
+
+        .screenshots, .changelog {
+            margin-top: 20px;
+            border: 2px solid #322e38;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .screenshots h2, .changelog h2 {
+            margin-top: 0;
+        }
+
+        .screenshot-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .screenshot-container img {
+            width: 100%;
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .screenshot-container img.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .screenshot-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .screenshot-controls button {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .screenshot-controls button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dates">
+            <span><i class="fas fa-calendar-alt icon"></i>:<span id="release-date"></span></span>
+            <span><i class="fas fa-sync-alt icon"></i> Updated:<span id="update-date"></span></span>
+        </div>
+
+        <h1 id="title"></h1>
+        <img id="image" src="" alt="Addon Image">
+        
+        <div class="description">
+            <h2>Description</h2>
+            <p id="description"></p>
+        </div>
+        
+        <div class="screenshots">
+            <h2>Screenshots</h2>
+            <div class="screenshot-container" id="screenshot-container">
+                <img src="screenshots/dz1.png" alt="Screenshot 1" class="active">
+                <img src="screenshots/dz2.png" alt="Screenshot 2">
+                <!-- เพิ่มรูปภาพตามจำนวนที่ต้องการ -->
+                <div class="screenshot-controls">
+                    <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="changelog">
+            <h2>Change Log</h2>
+            <ul id="changelog-list"></ul>
+        </div>
+
+        <div class="version">
+            <h2>Supported Minecraft Versions</h2>
+            <div class="tags" id="version-tags"></div>
+        </div>
+
+        <div class="tags-section">
+            <h2>Tags</h2>
+            <div class="tags" id="tags"></div>
+        </div>
+
+        <div class="download-links">
+            <h2>Download</h2>
+            <div id="download-links"></div>
+        </div>
+    </div>
+    
+    <script src="data.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const addon = addonData["dead_zone_original"];
+            document.getElementById("title").textContent = addon.title;
+            document.getElementById("image").src = addon.image;
+            document.getElementById("description").textContent = addon.description;
+
+            const changelogList = document.getElementById("changelog-list");
+            addon.changelog.forEach(log => {
+                const li = document.createElement("li");
+                li.textContent = log;
+                changelogList.appendChild(li);
+            });
+            
+            const versionTags = document.getElementById("version-tags");
+            addon.versions.forEach(version => {
+                const span = document.createElement("span");
+                span.className = "tag";
+                span.textContent = version;
+                versionTags.appendChild(span);
+            });
+            
+            const downloadLinks = document.getElementById("download-links");
+            addon.downloads.forEach(download => {
+                const a = document.createElement("a");
+                a.href = download.link;
+                a.textContent = download.label;
+                a.download = true;
+                downloadLinks.appendChild(a);
+            });
+
+            const tagsSection = document.getElementById("tags");
+            addon.tags.forEach(tag => {
+                const span = document.createElement("span");
+                span.className = "tag";
+                span.textContent = tag;
+                tagsSection.appendChild(span);
+            });
+
+            document.getElementById("release-date").textContent = addon.releaseDate;
+            document.getElementById("update-date").textContent = addon.updateDate;
+
+            // สำหรับการเลื่อนดู Screenshots
+            const screenshotContainer = document.getElementById("screenshot-container");
+            const images = screenshotContainer.getElementsByTagName("img");
+            let currentIndex = 0;
+
+            function showImage(index) {
+                if (index < 0) currentIndex = images.length - 1;
+                else if (index >= images.length) currentIndex = 0;
+                Array.from(images).forEach((img, i) => {
+                    img.classList.remove("active");
+                    if (i === currentIndex) img.classList.add("active");
+                });
+            }
+
+            document.getElementById("prevBtn").addEventListener("click", function() {
+                currentIndex--;
+                showImage(currentIndex);
+            });
+
+            document.getElementById("nextBtn").addEventListener("click", function() {
+                currentIndex++;
+                showImage(currentIndex);
+            });
+
+            showImage(currentIndex); // เริ่มต้นแสดงรูปแรก
+        });
+    </script>
+</body>
+</html>
