@@ -12,7 +12,7 @@ const addonData = {
             "- Fixed menu item can be dropped when dies",
             "Bug that exist",
             "- Blood particles still come out, even though you have healed it",
-            "- City structure has "Unknown" texture"
+            "- City structure has Unknown texture"
         ],
         versions: ["1.21.50", "1.21.60", "1.21.70", "1.21.80"],
         tags: ["minecraft", "apocalyptic", "addon", "zombie"],
