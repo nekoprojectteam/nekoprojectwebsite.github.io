@@ -1,9 +1,9 @@
-</body>
-</html><!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dead Zone Addons</title>
+    <title>Neko ¡ Project Website</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,6 +12,60 @@
             text-align: center;
             margin: 0;
             padding: 5px;
+            transition: background-color 0.3s;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 10;
+        }
+        .menu {
+            position: fixed;
+            top: 5px;
+            left: 10px;
+            cursor: pointer;
+            font-size: 30px;
+            background-color: #1d1a21;
+            border: 2px solid #322e38;
+            border-radius: 5px;
+            user-select: none;
+            z-index: 20;
+        }
+        .menu:focus {
+          outline: none;
+          box-shadow: none;
+        }
+        .menu:focus-visible {
+          outline: none;
+        }
+        .menu:active {
+          background-color: #1d1a21;
+          outline: none;
+        }
+        .nav-menu {
+            display: none;
+            position: fixed;
+            top: 55px;
+            left: 10px;
+            background: #1d1a21;
+            border: 2px solid #322e38;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 20;
+        }
+        .nav-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+        }
+        .nav-menu a:hover {
+            background: #322e38;
         }
         .container {
             display: flex;
@@ -22,6 +76,9 @@
             border: 2px solid #322e38;
             border-radius: 10px;
             padding: 20px;
+            position: relative;
+            z-index: 5;
+            margin-top: 20px;
         }
         .addon {
             position: relative;
@@ -37,6 +94,7 @@
             width: 100%;
             height: auto;
             display: block;
+            border: 2px solid #322e38;
             border-radius: 10px;
         }
         .addon:hover {
@@ -62,6 +120,19 @@
             border-top: 1px solid #ffffff44;
             font-size: 14px;
             color: #bbbbbb;
+            position: relative;
+            z-index: 5;
+        }
+        h1 {
+            margin-top: 50px;
+            background-color: #1d1a21;
+            padding: 10px;
+            border: 2px solid #322e38;
+            border-radius: 5px;
+        }
+        ::selection {
+            background-color: transparent;
+            color: inherit;
         }
         @media (min-width: 600px) {
             .addon {
@@ -76,13 +147,19 @@
     </style>
 </head>
 <body>
-    <h1>Official website Neko ¡ Project</h1>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="menu" onclick="toggleMenu()">&#9776;</div>
+    <div class="nav-menu" id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="wiki/index.html">Wiki</a>
+    </div>
+    <h1>Official Neko ¡ Project Website</h1>
     <div class="container">
         <div class="addon" onclick="location.href='original.html'">
             <img src="thumbnail/original.png" alt="dzo">
             <div class="name">DeadZone: Original</div>
         </div>
-        <!--<div class="addon" onclick="location.href='deco.html'">
+        <div class="addon" onclick="location.href='deco.html'">
             <img src="thumbnail/deco.png" alt="deco">
             <div class="name">Deco-DeadZone</div>
         </div>
@@ -92,11 +169,26 @@
         </div>
         <div class="addon" onclick="location.href='conflict.html'">
             <img src="conflict_thumbnail.png" alt="dzc">
-            <div class="name">DeadZone: Conflict</div>-->
+            <div class="name">DeadZone: Conflict</div>
         </div>
     </div>
     <div class="footer">
         Neko ¡ Project - All rights reserved
     </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("navMenu");
+            var overlay = document.getElementById("overlay");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+                overlay.style.display = "none";
+            } else {
+                menu.style.display = "block";
+                overlay.style.display = "block";
+            }
+        }
+    </script>
+
 </body>
 </html>
